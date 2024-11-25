@@ -101,7 +101,7 @@ fn topological_sort(graph: &HashMap<PathBuf, Vec<PathBuf>>) -> Result<Vec<PathBu
     }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() != 2 {
@@ -121,7 +121,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::process::exit(1);
     }
 
-    let files_map = collect_c_files(dir)?; // Key: path to file, Value: content of file
+    let files_map = collect_c_files(dir).expect("Failed to collect C files"); // Key: path to file, Value: content of file
 
     let dependency_graph = build_dependency_graph(&files_map);
 
@@ -135,6 +135,4 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             eprintln!("Error: {}", e);
         }
     }
-
-    Ok(())
 }
